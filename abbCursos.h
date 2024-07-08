@@ -15,4 +15,12 @@ struct abbCursos_t {
   struct abbCursos_t* dir;
 }; typedef struct abbCursos_t abbCursos;
 
+abbCursos* buscaCurso(abbCursos *cursos, int codBusca);
+
+void imprimeABBCursos(abbCursos *cursos);
+
+abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], char nomeCentroInsert[50]);
+
+void bufferCursos();
+
 #endif

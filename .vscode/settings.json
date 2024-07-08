@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.C": "c",
+    "*.c": "c",
+    "string.h": "c",
+    "listaalunos.h": "c",
+    "abbcursos.h": "c"
+  }
+}

@@ -11,4 +11,8 @@ struct listaAlunos_t {
   struct listaAlunos_t *prox;
 }; typedef struct listaAlunos_t listaAlunos;
 
+void imprimeListaAlunos(listaAlunos *matriculados);
+
+listaAlunos* insereAluno(listaAlunos *matriculados, int matriculaInsert, char nomeInsert[50], int anoIngressoInsert);
+
 #endif
