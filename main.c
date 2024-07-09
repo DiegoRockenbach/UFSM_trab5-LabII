@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "abbCursos.h"
 #include "listaAlunos.h"
-#include "menu.c"
-
+#include "menu.h"
 int main(){
 
   int opcaoMenu, codInsert, matriculaInsert, anoIngressoInsert;
@@ -36,6 +35,7 @@ int main(){
     else if (opcaoMenu == 4){
       if (cursos != NULL){
         printf("\nEstes são os cursos cadastrados no banco de dados: \n\n");
+
         imprimeABBCursosSemAlunos(cursos);
         printf("\n");
 
@@ -86,12 +86,15 @@ int main(){
       }
     }
     else if (opcaoMenu == 7){
+        cursos = arv_libera(cursos);
+
       return 0;
     }
     else {
       printf("\nOpção inválida inserida; \n");
     }
   }
+
 
   system("pause");
   return 0;

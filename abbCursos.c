@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include "abbCursos.h"
 #include "listaAlunos.h"
 
@@ -69,6 +68,21 @@ abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], ch
   }
 
   return cursos;
+}
+
+abbCursos* arv_libera(abbCursos* a){
+    if(a != NULL){
+        a->esq = arv_libera(a->esq);
+        a->dir = arv_libera(a->dir);
+        listaAlunos* p = a->matriculados;
+        while(p != NULL){ //desalocar lista de alunos
+            a->matriculados = p->prox;
+            free(p);
+            p = a->matriculados;
+        }
+        free(a);
+    }
+    return NULL;
 }
 
 void bufferCursos(){

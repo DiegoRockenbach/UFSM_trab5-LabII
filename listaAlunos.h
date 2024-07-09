@@ -10,9 +10,9 @@ struct listaAlunos_t {
   int anoIngresso;
   struct listaAlunos_t *prox;
 }; typedef struct listaAlunos_t listaAlunos;
-
+//função para imprimir a lista de alunos de um determinado curso
 void imprimeListaAlunos(listaAlunos *matriculados);
-
+//função para inserir um aluno à lista de um determinado curso
 listaAlunos* insereAluno(listaAlunos *matriculados, int matriculaInsert, char nomeInsert[50], int anoIngressoInsert);
 
 #endif

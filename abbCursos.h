@@ -15,12 +15,17 @@ struct abbCursos_t {
   struct abbCursos_t* dir;
 }; typedef struct abbCursos_t abbCursos;
 
+//função de busca de cursos pelo código do curso
 abbCursos* buscaCurso(abbCursos *cursos, int codBusca);
-
-void imprimeABBCursos(abbCursos *cursos);
-
+//função para imprimir cursos sem nenhum aluno cadastrado
+void imprimeABBCursosSemAlunos(abbCursos *cursos);
+//função para imprimir cursos com alunos
+void imprimeABBCursosComAlunos(abbCursos *cursos);
+//função para inserir cursos à árvore
 abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], char nomeCentroInsert[50]);
-
+//função para liberar a memória da árvore
+abbCursos* arv_libera(abbCursos* a);
+//função para limpar o buffer
 void bufferCursos();
 
 #endif
