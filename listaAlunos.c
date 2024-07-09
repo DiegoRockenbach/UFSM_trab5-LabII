@@ -9,7 +9,7 @@ void imprimeListaAlunos(listaAlunos *matriculados){
 
   printf("\n");
   for (p = matriculados; p != NULL; p = p->prox){
-    printf("%s [%d] - Ingressou no curso em %d; \n", p->nome, p->matricula, p->anoIngresso);
+    printf("NOME: %s   |   MATRÍCULA: [%d] | Ingressou no curso em %d; \n", p->nome, p->matricula, p->anoIngresso);
     if (p->prox == NULL){
       break;
     }

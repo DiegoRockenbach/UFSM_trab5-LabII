@@ -75,6 +75,7 @@ int main(){
         scanf("%d", &codInsert);
         cursoFound = buscaCurso(cursos, codInsert);
         if (cursoFound != NULL){
+            printf("Lista de alunos do curso %s:\n", cursoFound->nome);
           imprimeListaAlunos(cursoFound->matriculados);
         }
         else {
