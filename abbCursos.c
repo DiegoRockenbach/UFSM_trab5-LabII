@@ -6,15 +6,20 @@
 
 abbCursos* buscaCurso(abbCursos *cursos, int codBusca){
   
-  if (cursos != NULL){
-    buscaCurso(cursos->esq, codBusca);
-    if (codBusca == cursos->cod){
+  if (cursos == NULL){
+    return NULL;
+  }
+  else {
+    if (codBusca < cursos->cod){
+      buscaCurso(cursos->esq, codBusca);
+    }
+    else if (codBusca > cursos->cod){
+      buscaCurso(cursos->dir, codBusca);
+    }
+    else {
       return cursos;
     }
-    buscaCurso(cursos->dir, codBusca);
   }
-
-  return NULL; // se não achar ou se cursos for vazio retorna NULL
 }
 
 void imprimeABBCursosSemAlunos(abbCursos *cursos){
@@ -38,6 +43,58 @@ void imprimeABBCursosComAlunos(abbCursos *cursos){
     imprimeABBCursosComAlunos(cursos->dir);
   }
 
+}
+
+abbCursos* arv_libera(abbCursos* a){
+  if(a != NULL){
+      a->esq = arv_libera(a->esq);
+      a->dir = arv_libera(a->dir);
+      listaAlunos* p = a->matriculados;
+      while(p != NULL){ //desalocar lista de alunos
+          a->matriculados = p->prox;
+          free(p);
+          p = a->matriculados;
+      }
+      free(a);
+  }
+  return NULL;
+}
+
+abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
+
+  abbCursos *temp;
+
+  if (cursos != NULL){
+    /* nó sem filhos */
+    if (cursoFound->esq == NULL && cursoFound->dir == NULL) {
+      cursoFound = NULL;
+    }
+    /* nó só tem filho à direita */
+    else if (cursoFound->esq == NULL) {
+      cursoFound = cursoFound->dir;
+    }
+    /* só tem filho à esquerda */
+    else if (cursoFound->dir == NULL) {
+      cursoFound = cursoFound->esq;
+    }
+    /* nó tem os dois filhos */
+    else {
+      temp = cursoFound->esq;
+      while (temp->dir != NULL) {
+        temp = temp->dir;
+      }
+      
+      /* troca as informações */
+      cursoFound->cod = temp->cod;
+      strcpy(cursoFound->nome, temp->nome);
+      strcpy(cursoFound->nomeCentro, temp->nomeCentro);
+      cursoFound->matriculados = temp->matriculados;
+
+      cursoFound->esq = removeCurso(cursoFound->esq, temp);
+    }
+  }
+
+  return cursoFound;
 }
 
 abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], char nomeCentroInsert[50]){
@@ -70,28 +127,9 @@ abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], ch
   return cursos;
 }
 
-abbCursos* arv_libera(abbCursos* a){
-    if(a != NULL){
-        a->esq = arv_libera(a->esq);
-        a->dir = arv_libera(a->dir);
-        listaAlunos* p = a->matriculados;
-        while(p != NULL){ //desalocar lista de alunos
-            a->matriculados = p->prox;
-            free(p);
-            p = a->matriculados;
-        }
-        free(a);
-    }
-    return NULL;
-}
-
 void bufferCursos(){
   
   int c;
   while((c = getchar()) != '\n' && c != EOF) {}
 
 }
-
-// func deletaNó
-
-// etc

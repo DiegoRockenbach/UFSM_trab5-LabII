@@ -4,7 +4,7 @@
     {
       "type": "shell",
 			"label": "BUILDtrab5cpp",
-			"command": "clear; Remove-Item -Force -Recurse -Path ./output 2>null; mkdir output 2>null; del null; gcc -Wall -o ./output/out.exe main.c abbCursos.c listaAlunos.c; start ./output/out.exe;",
+			"command": "clear; Remove-Item -Force -Recurse -Path ./output 2>null; mkdir output 2>null; del null; gcc -Wall -o ./output/out.exe main.c menu.c abbCursos.c listaAlunos.c; start ./output/out.exe;",
 			"options": {
 				"cwd": "${fileDirname}"
 			},

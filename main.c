@@ -8,6 +8,7 @@ int main(){
   int opcaoMenu, codInsert, matriculaInsert, anoIngressoInsert;
   char nomeInsert[50], nomeCentroInsert[50];
   abbCursos *cursos = NULL, *cursoFound;
+  listaAlunos *alunoFound;
 
   printf("\nBem vindos ao sistema de gerenciamento dos cursos de graduação da UFSM! \n");
 
@@ -26,7 +27,24 @@ int main(){
         printf("\nInserção bem sucedida! Agora o curso de código %d pode ser escolhido para cadastrar alunos matriculados! \n\n", codInsert);
     }
     else if (opcaoMenu == 2){
-      // exclui curso da abb (um nó pra cada curso)
+      if (cursos != NULL){
+        printf("\nEstes são os cursos cadastrados no banco de dados: \n\n");
+        imprimeABBCursosSemAlunos(cursos);
+
+        printf("\n\nInsira o código do curso que deseja remover: \n");
+        scanf("%d", &codInsert);
+        cursoFound = buscaCurso(cursos, codInsert);
+        if (cursoFound != NULL){
+          removeCurso(cursos, cursoFound);
+          printf("\nRemoção bem sucedida! \n\n");
+        }
+        else {
+          printf("\nNão foi possível encontrar o curso de código %d; Remoção falhou! \n\n", codInsert);
+        }
+      }
+      else {
+        printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a remoção de cursos! \n\n");
+      }
     }
     else if (opcaoMenu == 3){
       printf("\n\n");
@@ -35,11 +53,9 @@ int main(){
     else if (opcaoMenu == 4){
       if (cursos != NULL){
         printf("\nEstes são os cursos cadastrados no banco de dados: \n\n");
-
         imprimeABBCursosSemAlunos(cursos);
-        printf("\n");
 
-        printf("\nInsira o código do curso no qual deseja inserir o aluno: \n");
+        printf("\n\nInsira o código do curso no qual deseja inserir o aluno: \n");
         scanf("%d", &codInsert);
         cursoFound = buscaCurso(cursos, codInsert);
         if (cursoFound != NULL){
@@ -63,7 +79,40 @@ int main(){
       }
     }
     else if (opcaoMenu == 5){
-      // exclui aluno da lista de matriculados (tem que pedir de qual curso)
+      if (cursos != NULL){
+        printf("\nEstes são os cursos cadastrados no banco de dados: \n\n");
+        imprimeABBCursosSemAlunos(cursos);
+
+        printf("\n\nInsira o código do curso no qual deseja remover o aluno: \n");
+        scanf("%d", &codInsert);
+        cursoFound = buscaCurso(cursos, codInsert);
+        if (cursoFound != NULL){
+          if (cursoFound->matriculados != NULL){
+            printf("\nEstes são os alunos matriculados no curso escolhido: \n\n");
+            imprimeListaAlunos(cursoFound->matriculados);
+
+            printf("\n\nInsira a matrícula do aluno que deseja remover do banco de dados: \n");
+            scanf("%d", &matriculaInsert);
+            alunoFound = buscaAluno(cursoFound->matriculados, matriculaInsert);
+            if (alunoFound != NULL){
+              cursoFound->matriculados = removeAluno(cursoFound->matriculados, alunoFound);
+              printf("\nRemoção bem sucedida! \n\n");
+            }
+            else {
+              printf("\nNão foi possível encontrar o aluno de matrícula %d; Remoção falhou! \n\n", matriculaInsert);
+            }
+          }
+          else {
+            printf("\nA lista de alunos está vazia, portanto não há nada para remover; Remoção falhou! \n\n");
+          }
+        }
+        else {
+          printf("\nNão foi possível encontrar o curso de código %d; Remoção falhou! \n\n", codInsert);
+        }
+      }
+      else {
+        printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a remoção de alunos! \n\n");
+      }
     }
     else if (opcaoMenu == 6){
       if (cursos != NULL){
@@ -75,8 +124,13 @@ int main(){
         scanf("%d", &codInsert);
         cursoFound = buscaCurso(cursos, codInsert);
         if (cursoFound != NULL){
+          if (cursoFound->matriculados != NULL){
             printf("Lista de alunos do curso %s:\n", cursoFound->nome);
-          imprimeListaAlunos(cursoFound->matriculados);
+            imprimeListaAlunos(cursoFound->matriculados);
+          }
+          else {
+            printf("\nNão há nenhum aluno matriculado no curso selecionado; \n");
+          }
         }
         else {
           printf("\nNão foi possível encontrar o curso de código %d; \n\n", codInsert);
@@ -87,8 +141,7 @@ int main(){
       }
     }
     else if (opcaoMenu == 7){
-        cursos = arv_libera(cursos);
-
+      cursos = arv_libera(cursos);
       return 0;
     }
     else {

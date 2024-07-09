@@ -3,6 +3,28 @@
 #include <string.h>
 #include "listaAlunos.h"
 
+listaAlunos* buscaAluno(listaAlunos *matriculados, int matriculaBusca){
+
+  listaAlunos *p;
+
+  if (matriculados != NULL){
+    p = matriculados;
+    while (p != NULL){
+      if (matriculaBusca == p->matricula){
+        return p;
+      }
+      if (p->prox != NULL){
+        p = p->prox;
+      }
+      else {
+        break;
+      }
+    }
+  }
+
+  return NULL; // se não achar ou se a lista dos alunos matriculados for vazia retorna NULL
+}
+
 void imprimeListaAlunos(listaAlunos *matriculados){
 
   listaAlunos *p;
@@ -18,6 +40,30 @@ void imprimeListaAlunos(listaAlunos *matriculados){
 
 }
 
+listaAlunos* removeAluno(listaAlunos *matriculados, listaAlunos *alunoFound){
+
+  listaAlunos *p;
+
+  p = matriculados;
+  while (p != NULL){
+    if (p == alunoFound && p->prox == NULL){
+      return NULL;
+    }
+    if (p == alunoFound && p->prox != NULL){
+      return p->prox;
+    }
+    if (p->prox != NULL){
+      if (p->prox == alunoFound){
+        p->prox = alunoFound->prox;
+        break;
+      }
+      p = p->prox;
+    }
+  }
+
+  return matriculados;
+}
+
 listaAlunos* insereAluno(listaAlunos *matriculados, int matriculaInsert, char nomeInsert[50], int anoIngressoInsert){
 
   listaAlunos *novo, *p;
@@ -25,7 +71,6 @@ listaAlunos* insereAluno(listaAlunos *matriculados, int matriculaInsert, char no
   novo = (listaAlunos*) malloc(sizeof(listaAlunos));
   if (novo == NULL){
     printf("\nErro de alocação de memória!\n\n");
-    system("pause");
     return NULL;
   }
   novo->prox = NULL;
@@ -38,15 +83,30 @@ listaAlunos* insereAluno(listaAlunos *matriculados, int matriculaInsert, char no
   }
   else {
     p = matriculados;
-    while (p->prox != NULL){
-      p = p->prox;
+    while (p != NULL){
+
+      if (p->matricula > matriculaInsert){
+        novo->prox = p;
+        return novo;
+      }
+      else {
+        if (p->prox != NULL){
+          if (p->matricula < matriculaInsert && p->prox->matricula > matriculaInsert){
+            novo->prox = p->prox;
+            p->prox = novo;
+            return matriculados;
+          }
+          else if (p->matricula < matriculaInsert && p->prox->matricula < matriculaInsert){
+            p = p->prox;
+          }
+        }
+        else {
+          p->prox = novo;
+          return matriculados;
+        }
+      }
     }
-    p->prox = novo;
   }
 
   return matriculados;
 }
-
-// func remove aluno da lista
-
-// etc sei la mais o que

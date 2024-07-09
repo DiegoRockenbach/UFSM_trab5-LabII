@@ -1,7 +1,9 @@
+#ifndef __MENUH_INCLUDED__
+#define __MENUH_INCLUDED__
 
-#ifndef TRAB5_LABII_MANU_H
-#define TRAB5_LABII_MANU_H
-
-#endif //TRAB5_LABII_MANU_H
+#include <stdio.h>
+#include <stdlib.h>
 
 int imprimeMenu();
+
+#endif
