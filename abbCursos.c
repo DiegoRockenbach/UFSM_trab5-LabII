@@ -30,6 +30,7 @@ void imprimeABBCursosSemAlunos(abbCursos *cursos){
     imprimeABBCursosSemAlunos(cursos->dir);
   }
 
+
 }
 
 void imprimeABBCursosComAlunos(abbCursos *cursos){
@@ -42,6 +43,7 @@ void imprimeABBCursosComAlunos(abbCursos *cursos){
     }
     imprimeABBCursosComAlunos(cursos->dir);
   }
+
 
 }
 
@@ -64,37 +66,65 @@ abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
 
   abbCursos *temp;
 
-  if (cursos != NULL){
-    /* nó sem filhos */
-    if (cursoFound->esq == NULL && cursoFound->dir == NULL) {
-      cursoFound = NULL;
-    }
-    /* nó só tem filho à direita */
-    else if (cursoFound->esq == NULL) {
-      cursoFound = cursoFound->dir;
-    }
-    /* só tem filho à esquerda */
-    else if (cursoFound->dir == NULL) {
-      cursoFound = cursoFound->esq;
-    }
-    /* nó tem os dois filhos */
-    else {
-      temp = cursoFound->esq;
-      while (temp->dir != NULL) {
-        temp = temp->dir;
+  if(cursoFound == NULL)
+      return NULL;
+  else if (cursos->cod > cursoFound->cod )
+      cursos->esq = removeCurso(cursos->esq, cursoFound);
+  else if (cursos->cod < cursoFound->cod)
+      cursos->dir = removeCurso(cursos->dir, cursoFound);
+  else{ /*achou o nó a remover */
+      /* nó sem filhos*/
+      if(cursos->esq == NULL && cursos->dir == NULL){
+          listaAlunos* p = cursos->matriculados;
+          while(p != NULL){ //desalocar lista de alunos
+              cursos->matriculados = p->prox;
+              free(p);
+              p = cursos->matriculados;
+          }
+          free(cursos);
+          cursos = NULL;
       }
-      
-      /* troca as informações */
-      cursoFound->cod = temp->cod;
-      strcpy(cursoFound->nome, temp->nome);
-      strcpy(cursoFound->nomeCentro, temp->nomeCentro);
-      cursoFound->matriculados = temp->matriculados;
+//      nó só tem filho à direita
+    else if(cursos->esq == NULL){
+        abbCursos* t = cursos;
 
-      cursoFound->esq = removeCurso(cursoFound->esq, temp);
+        cursos = cursos->dir;
+        listaAlunos* p = t->matriculados;
+        while(p != NULL){ //desalocar lista de alunos
+          t->matriculados = p->prox;
+          free(p);
+          p = t->matriculados;
+        }
+        free(t);
+    }
+    //só tem filho à esquerda
+    else if(cursos->dir == NULL){
+        abbCursos* t = cursos;
+        cursos = cursos->esq;
+          listaAlunos* p = cursos->matriculados;
+        while(p != NULL){ //desalocar lista de alunos
+          cursos->matriculados = p->prox;
+          free(p);
+          p = cursos->matriculados;
+        }
+        free(cursos);
+    }
+    //nó tem dois filhos
+    else{
+        abbCursos* f = cursos->esq;
+        while(f->dir != NULL){
+            f = f->dir;
+        }
+        cursos->cod = f->cod; //troca as informações
+        strcpy(cursos->nome, f->nome);
+        strcpy(cursos->nomeCentro, f->nomeCentro);
+        cursos->matriculados = f->matriculados;
+        f->cod = cursoFound->cod;
+        cursos->esq = removeCurso(cursos->esq, cursoFound);
     }
   }
 
-  return cursoFound;
+  return cursos;
 }
 
 abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], char nomeCentroInsert[50]){

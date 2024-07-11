@@ -35,12 +35,13 @@ int main(){
         scanf("%d", &codInsert);
         cursoFound = buscaCurso(cursos, codInsert);
         if (cursoFound != NULL){
-          removeCurso(cursos, cursoFound);
+          cursos = removeCurso(cursos, cursoFound);
           printf("\nRemoção bem sucedida! \n\n");
         }
         else {
           printf("\nNão foi possível encontrar o curso de código %d; Remoção falhou! \n\n", codInsert);
         }
+        cursoFound = NULL;
       }
       else {
         printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a remoção de cursos! \n\n");
@@ -48,7 +49,10 @@ int main(){
     }
     else if (opcaoMenu == 3){
       printf("\n\n");
-      imprimeABBCursosComAlunos(cursos);
+      if(cursos != NULL)
+        imprimeABBCursosComAlunos(cursos);
+      else
+          printf("\nNão há nenhum curso cadastrado no banco de dados.\n\n");
     }
     else if (opcaoMenu == 4){
       if (cursos != NULL){
@@ -73,6 +77,8 @@ int main(){
         else {
           printf("\nNão foi possível encontrar o curso de código %d; Inserção falhou! \n\n", codInsert);
         }
+        cursoFound = NULL;
+
       }
       else {
         printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a inserção de alunos! \n\n");
@@ -113,6 +119,8 @@ int main(){
       else {
         printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a remoção de alunos! \n\n");
       }
+        cursoFound = NULL;
+
     }
     else if (opcaoMenu == 6){
       if (cursos != NULL){
@@ -139,9 +147,12 @@ int main(){
       else {
         printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível imprimir a lista de alunos matriculados! \n\n");
       }
+        cursoFound = NULL;
+
     }
     else if (opcaoMenu == 7){
       cursos = arv_libera(cursos);
+      cursoFound = cursos;
       return 0;
     }
     else {

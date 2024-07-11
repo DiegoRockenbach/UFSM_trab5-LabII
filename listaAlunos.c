@@ -27,16 +27,21 @@ listaAlunos* buscaAluno(listaAlunos *matriculados, int matriculaBusca){
 
 void imprimeListaAlunos(listaAlunos *matriculados){
 
-  listaAlunos *p;
+    if(matriculados != NULL){
+        listaAlunos *p;
 
-  printf("\n");
-  for (p = matriculados; p != NULL; p = p->prox){
-    printf("NOME: %s   |   MATRÍCULA: [%d] | Ingressou no curso em %d; \n", p->nome, p->matricula, p->anoIngresso);
-    if (p->prox == NULL){
-      break;
+        printf("\n");
+        for (p = matriculados; p != NULL; p = p->prox){
+            printf("NOME: %s   |   MATRÍCULA: [%d] | Ingressou no curso em %d; \n", p->nome, p->matricula, p->anoIngresso);
+            if (p->prox == NULL){
+                break;
+            }
+        }
+        printf("\n");
     }
-  }
-  printf("\n");
+    else
+        printf("Nenhum aluno matriculado\n");
+
 
 }
 
