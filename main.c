@@ -41,11 +41,12 @@ int main(){
         else {
           printf("\nNão foi possível encontrar o curso de código %d; Remoção falhou! \n\n", codInsert);
         }
-        cursoFound = NULL;
+
       }
       else {
         printf("\nNão há nenhum curso cadastrado no banco de dados, portanto não é possível realizar a remoção de cursos! \n\n");
       }
+        cursoFound = NULL;
     }
     else if (opcaoMenu == 3){
       printf("\n\n");

@@ -58,13 +58,12 @@ abbCursos* arv_libera(abbCursos* a){
           p = a->matriculados;
       }
       free(a);
+      a = NULL;
   }
   return NULL;
 }
 
 abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
-
-  abbCursos *temp;
 
   if(cursoFound == NULL)
       return NULL;
@@ -96,6 +95,7 @@ abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
           p = t->matriculados;
         }
         free(t);
+        t = NULL;
     }
     //só tem filho à esquerda
     else if(cursos->dir == NULL){
@@ -107,7 +107,8 @@ abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
           free(p);
           p = cursos->matriculados;
         }
-        free(cursos);
+        free(t);
+        t = NULL;
     }
     //nó tem dois filhos
     else{
@@ -129,28 +130,28 @@ abbCursos* removeCurso(abbCursos *cursos, abbCursos *cursoFound){
 
 abbCursos* insereCurso(abbCursos *cursos, int codInsert, char nomeInsert[50], char nomeCentroInsert[50]){
 
-  abbCursos *novo;
+//  abbCursos *novo;
 
-  novo = (abbCursos*) malloc(sizeof(abbCursos));
-  if (novo == NULL){
-    printf("\nErro de alocação de memória!\n\n");
-    system("pause");
-    return NULL;
-  }
-  novo->cod = codInsert;
-  strcpy(novo->nome, nomeInsert);
-  strcpy(novo->nomeCentro, nomeCentroInsert);
-  novo->matriculados = NULL;
-  novo->esq = NULL;
-  novo->dir = NULL;
-  
+
   if (cursos == NULL){
-    return novo;
+
+      cursos = (abbCursos*) malloc(sizeof(abbCursos));
+      if (cursos == NULL){
+          printf("\nErro de alocação de memória!\n\n");
+          system("pause");
+          return NULL;
+      }
+      cursos->cod = codInsert;
+      strcpy(cursos->nome, nomeInsert);
+      strcpy(cursos->nomeCentro, nomeCentroInsert);
+      cursos->matriculados = NULL;
+      cursos->esq = NULL;
+      cursos->dir = NULL;
   }
-  if (codInsert < cursos->cod){
+  else if (codInsert < cursos->cod){
     cursos->esq = insereCurso(cursos->esq, codInsert, nomeInsert, nomeCentroInsert);
   }
-  else {
+  else if(codInsert > cursos->cod){
     cursos->dir = insereCurso(cursos->dir, codInsert, nomeInsert, nomeCentroInsert);
   }
 
